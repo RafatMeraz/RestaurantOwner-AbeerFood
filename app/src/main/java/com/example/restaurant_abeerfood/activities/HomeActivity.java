@@ -8,8 +8,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.restaurant_abeerfood.R;
 import com.example.restaurant_abeerfood.database.SharedPrefManager;
@@ -24,6 +26,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class HomeActivity extends AppCompatActivity {
 
     public static BottomNavigationView navView;
+    private boolean doubleClickedExit = false;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -88,5 +91,22 @@ public class HomeActivity extends AppCompatActivity {
         View v = bottomNavigationMenuView.getChildAt(3); // number of menu from left
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleClickedExit){
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleClickedExit = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleClickedExit = false;
+            }
+        }, 2000);
     }
 }
